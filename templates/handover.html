@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PROJET}} — la passation</title>
+<!--
+  GABARIT — Page de présentation (livrable n° 6).
+  Devient `handover.html` dans {{DOSSIER_PAQUET}}.
+
+  Contraintes à ne pas casser :
+  - page autonome : un double-clic suffit, AUCUNE requête externe (pas de police, pas d'image,
+    pas de script distants) — le destinataire peut être sur un réseau lent ou coupé ;
+  - tout le CSS est en ligne, ci-dessous ;
+  - thème clair / sombre par variables CSS, plus une feuille d'impression ;
+  - aucun débordement horizontal : les tableaux scrollent dans leur `.tablewrap`, jamais le corps.
+
+  🔴 Retirer la section « template-note » en tête de <body> une fois le gabarit rempli.
+-->
+<style>
+  :root {
+    --bg: #fbf9f5;
+    --surface: #ffffff;
+    --surface-2: #f4f0e8;
+    --ink: #221d17;
+    --ink-2: #5c5449;
+    --ink-3: #8b8175;
+    --line: #e2dccf;
+    --accent: #b5651d;
+    --accent-soft: #f6e9dc;
+    --ok: #2f6f4f;
+    --ok-soft: #e4f0e9;
+    --warn: #9a6b00;
+    --warn-soft: #fbf0d8;
+    --radius: 10px;
+    --maxw: 62rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16130f;
+      --surface: #1f1b16;
+      --surface-2: #272119;
+      --ink: #f0eae0;
+      --ink-2: #bdb3a4;
+      --ink-3: #8b8175;
+      --line: #3a3229;
+      --accent: #e0913f;
+      --accent-soft: #35271a;
+      --ok: #7fc4a0;
+      --ok-soft: #1e2e26;
+      --warn: #e0b055;
+      --warn-soft: #322715;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16130f;
+    --surface: #1f1b16;
+    --surface-2: #272119;
+    --ink: #f0eae0;
+    --ink-2: #bdb3a4;
+    --ink-3: #8b8175;
+    --line: #3a3229;
+    --accent: #e0913f;
+    --accent-soft: #35271a;
+    --ok: #7fc4a0;
+    --ok-soft: #1e2e26;
+    --warn: #e0b055;
+    --warn-soft: #322715;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 0 1.25rem 5rem;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; }
+  /* Un mot insécable très long — placeholder non remplacé, URL, nom de produit —
+     déborderait la page sur mobile. On l'autorise à se couper. */
+  h1, h2, h3, p, li, td, th, .gate { overflow-wrap: break-word; }
+
+  header.hero {
+    padding: 3.5rem 0 2.25rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2.5rem;
+  }
+  .eyebrow {
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .75rem;
+  }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); line-height: 1.15; margin: 0 0 1rem; letter-spacing: -.02em; }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 46rem; margin: 0; }
+
+  h2 {
+    font-size: 1.45rem; margin: 3.25rem 0 .35rem; letter-spacing: -.01em;
+    padding-top: 1.75rem; border-top: 1px solid var(--line);
+  }
+  h2:first-of-type { border-top: 0; padding-top: 0; }
+  .sub { color: var(--ink-3); margin: 0 0 1.5rem; font-size: .95rem; }
+  h3 { font-size: 1.05rem; margin: 2rem 0 .5rem; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); }
+
+  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.15rem 1.25rem;
+  }
+  .card h3 { margin-top: 0; }
+  .card p:last-child { margin-bottom: 0; }
+  .card .who { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin: 0 0 .5rem; }
+
+  .callout {
+    background: var(--accent-soft); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius); padding: 1.1rem 1.25rem; margin: 1.5rem 0;
+  }
+  .callout.warn { background: var(--warn-soft); border-left-color: var(--warn); }
+  .callout.ok { background: var(--ok-soft); border-left-color: var(--ok); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { color: var(--ink); }
+
+  .tablewrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--line); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; font-size: .94rem; min-width: 34rem; }
+  th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 1.5rem 0 0; }
+  ol.steps > li {
+    counter-increment: s; position: relative;
+    padding: 0 0 1.5rem 3.25rem; margin: 0;
+    border-left: 2px solid var(--line); margin-left: 1.05rem;
+  }
+  ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: -1.05rem; top: -.15rem;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--line);
+    color: var(--ink-2); font-weight: 700; font-size: .9rem;
+    display: grid; place-items: center;
+  }
+  ol.steps > li.done::before { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  ol.steps > li.now::before { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  ol.steps h3 { margin: 0 0 .3rem; }
+  ol.steps p { margin: 0 0 .4rem; color: var(--ink-2); }
+  .gate {
+    display: inline-block; font-size: .84rem; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: .3rem .6rem;
+  }
+  .gate b { color: var(--ink); font-weight: 600; }
+
+  ul.plain { padding-left: 1.2rem; margin: 0 0 1rem; }
+  ul.plain li { margin-bottom: .4rem; }
+
+  code {
+    background: var(--surface-2); border: 1px solid var(--line);
+    padding: .1rem .35rem; border-radius: 4px; font-size: .88em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    overflow-wrap: anywhere;
+  }
+
+  /* Encart de gabarit — à supprimer une fois la page remplie. */
+  .template-note {
+    border: 2px dashed var(--accent); border-radius: var(--radius);
+    padding: 1.25rem; margin: 2rem 0 0; background: var(--surface);
+  }
+  .template-note h2 { margin-top: 0; border-top: 0; padding-top: 0; font-size: 1.15rem; }
+
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+    color: var(--ink-3); font-size: .85rem; text-align: center;
+  }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    h2 { break-before: auto; page-break-inside: avoid; }
+    ol.steps > li, .card, .callout { break-inside: avoid; }
+    .template-note { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============================================================================
+     🔴 SECTION À RETIRER une fois le gabarit rempli.
+     ============================================================================ -->
+<section class="template-note">
+  <h2>Placeholders de ce gabarit</h2>
+  <p class="sub">Cette section ne fait pas partie du livrable : elle se supprime une fois la page remplie.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Placeholder</th><th>À quoi il correspond</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>{{DESTINATAIRE}}</code></td><td>le prénom de celui qui reçoit la passation et qui pilotera</td><td>Camille</td></tr>
+      <tr><td><code>{{ACCOMPAGNANT}}</code></td><td>le prénom de celui qui passe la main</td><td>Alex</td></tr>
+      <tr><td><code>{{PROJET}}</code></td><td>le nom du projet ou de l'application</td><td>Facturation Atelier</td></tr>
+      <tr><td><code>{{OBJET_PROJET}}</code></td><td>ce que fait l'application, en une ligne</td><td>émettre les devis et les factures et suivre le stock</td></tr>
+      <tr><td><code>{{ORGANISATION}}</code></td><td>l'entreprise ou la structure du destinataire</td><td>l'atelier</td></tr>
+      <tr><td><code>{{PROJETS_SUIVANTS}}</code></td><td>ce qui viendra après ce projet, s'il y a une suite connue</td><td>le site vitrine, puis le portail client</td></tr>
+      <tr><td><code>{{DEPOT}}</code></td><td>le chemin court du dépôt</td><td>mon-orga/facturation-atelier</td></tr>
+      <tr><td><code>{{URL_DEPOT}}</code></td><td>l'URL complète du dépôt</td><td>https://github.com/mon-orga/facturation-atelier</td></tr>
+      <tr><td><code>{{PLATEFORME_DEPOT}}</code></td><td>l'hébergeur du dépôt</td><td>GitHub</td></tr>
+      <tr><td><code>{{DEPOT_METHODE}}</code></td><td>le dépôt gabarit de méthode auquel on renvoie</td><td>mon-orga/kickoff</td></tr>
+      <tr><td><code>{{IA_QUI_CODE}}</code></td><td>l'outil qui écrit et exécute le code</td><td>Codex</td></tr>
+      <tr><td><code>{{IA_QUI_PILOTE}}</code></td><td>la forme de l'IA qui cadre — assistant configuré, espace de projet, prompt</td><td>un assistant configuré</td></tr>
+      <tr><td><code>{{NOM_COPILOTE}}</code></td><td>le nom donné à cet assistant</td><td>Copilote Atelier</td></tr>
+      <tr><td><code>{{ABONNEMENT_IA}}</code></td><td>le plan payant qui donne accès aux deux IA</td><td>ChatGPT Pro</td></tr>
+      <tr><td><code>{{STACK}}</code></td><td>la base technique visée</td><td>Django</td></tr>
+      <tr><td><code>{{STACK_ACTUELLE}}</code></td><td>la base technique de l'existant, qui reste en secours</td><td>l'application actuelle en ligne</td></tr>
+      <tr><td><code>{{HEBERGEUR}}</code></td><td>où la nouvelle application sera mise en ligne</td><td>Fly.io</td></tr>
+      <tr><td><code>{{COUT_HEBERGEUR}}</code></td><td>ce que coûte cet hébergement, ou quand le montant sera confirmé</td><td>payant — montant confirmé à l'étape 3</td></tr>
+      <tr><td><code>{{OUTIL_SCHEMA}}</code></td><td>l'outil de dessin pour les maquettes et schémas</td><td>Excalidraw</td></tr>
+      <tr><td><code>{{DOSSIER_PAQUET}}</code></td><td>le dossier du dépôt qui porte ce paquet</td><td>docs/refonte/</td></tr>
+      <tr><td><code>{{DOSSIER_SPEC}}</code></td><td>le dossier du dépôt où atterrissent la spécification et les stories — <strong>celui qui fait foi</strong></td><td>docs/specs/</td></tr>
+      <tr><td><code>{{TABLEAU_SUIVI}}</code></td><td>l'outil qui porte l'avancement, une carte par story</td><td>le tableau Projects du dépôt</td></tr>
+      <tr><td><code>{{WIKI}}</code></td><td>l'espace où un humain vient lire décisions et procédures, hors du code</td><td>le wiki du dépôt</td></tr>
+      <tr><td><code>{{PREMIERE_FONCTIONNALITE_APRES}}</code></td><td>la première nouveauté autorisée une fois le projet fini — nommée d'avance</td><td>la sauvegarde automatique des données</td></tr>
+      <tr><td><code>{{VERSION}}</code></td><td>la version du document</td><td>v01</td></tr>
+      <tr><td><code>{{DATE}}</code></td><td>la date de dernière modification</td><td>25/08/2026</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+<!-- ==================== FIN DE LA SECTION À RETIRER ==================== -->
+
+<header class="hero">
+  <p class="eyebrow">Passation · {{DATE}}</p>
+  <h1>{{PROJET}}&nbsp;: tu prends les commandes</h1>
+  <p class="lede">
+    {{ACCOMPAGNANT}} n'est plus disponible au quotidien sur le projet. À partir de maintenant, c'est toi
+    qui pilotes — avec deux IA comme équipe technique, et cette méthode comme garde-fou. Cette page te
+    dit où on va, ce dont tu as besoin, et dans quel ordre.
+  </p>
+</header>
+
+<h2>Ce qu'on veut obtenir</h2>
+<p class="sub">L'objectif n'est pas une application de plus. C'est ton autonomie.</p>
+
+<div class="cards">
+  <div class="card">
+    <p class="who">Objectif immédiat</p>
+    <h3>{{PROJET}}, sur {{STACK}}</h3>
+    <p>De quoi {{OBJET_PROJET}}, sur une base technique que toi et tes IA pouvez tenir dans la durée.
+    Rien de neuf tant que ce n'est pas fini.</p>
+  </div>
+  <div class="card">
+    <p class="who">Objectif de fond</p>
+    <h3>Que tu saches recommencer</h3>
+    <p>La méthode que tu apprends ici est faite pour être rejouée sur les projets suivants de
+    {{ORGANISATION}}&nbsp;: {{PROJETS_SUIVANTS}}.</p>
+  </div>
+  <div class="card">
+    <p class="who">Ce qui ne change pas</p>
+    <h3>Tu décides, tu valides</h3>
+    <p>Tu ne codes pas et tu n'as pas à apprendre à coder. Mais rien n'avance sans que tu aies compris
+    et accepté ce qui vient d'être produit.</p>
+  </div>
+</div>
+
+<h2>Le dispositif&nbsp;: deux IA, deux métiers</h2>
+<p class="sub">C'est la clé de tout le reste. Ne leur fais jamais faire le travail de l'autre.</p>
+
+<div class="cards">
+  <div class="card">
+    <p class="who">L'ouvrier</p>
+    <h3>{{IA_QUI_CODE}}</h3>
+    <p>Déjà relié au dépôt <code>{{DEPOT}}</code>. Il <strong>écrit et exécute le code</strong>. Il ne
+    décide pas de la méthode, et il ne décide pas du périmètre.</p>
+  </div>
+  <div class="card">
+    <p class="who">Le chef de projet</p>
+    <h3>{{NOM_COPILOTE}}</h3>
+    <p>{{IA_QUI_PILOTE}}, que tu vas mettre en place. Il <strong>cadre chaque étape, conçoit, relit ce
+    que {{IA_QUI_CODE}} produit et tient la méthode</strong>. Il ne touche jamais au code.</p>
+  </div>
+</div>
+
+<h3>{{NOM_COPILOTE}} a deux casquettes</h3>
+<p>
+  <strong>Garant de la solution</strong> — il est ton architecte, ton contrôleur qualité et le gardien
+  de la méthode. C'est lui qui refuse d'avancer si une étape n'est pas finie.
+  <strong>Mentor</strong> — il te fait monter en compétence sur ce que tu dois comprendre pour rester
+  aux commandes. Il propose&nbsp;; il ne t'impose jamais un cours dont tu n'as pas envie.
+</p>
+
+<div class="callout">
+  <p><strong>À chaque étape, il te dira systématiquement&nbsp;:</strong> où on en est et pourquoi ·
+  ce qui sera produit · ce qu'il fait et ce que tu fais · ce dont il a besoin avant de démarrer ·
+  ce que tu devras valider · les outils utilisés · l'étape d'après.</p>
+  <p>S'il saute cette introduction, c'est qu'il a perdu le fil&nbsp;: redemande-la.</p>
+</div>
+
+<div class="callout warn">
+  <p><strong>{{NOM_COPILOTE}} ne voit pas le dépôt.</strong> C'est volontaire. Une IA à qui on laisse
+  croire qu'elle a accès au code en invente le contenu avec beaucoup d'aplomb. Quand il a besoin d'un
+  fichier, il te le demande&nbsp;: tu le lui copies ou tu le lui envoies. C'est toi, le pont.</p>
+</div>
+
+<h2>Comment un besoin devient une fonctionnalité</h2>
+<p class="sub">
+  Ce n'est pas à toi d'écrire ce que l'application doit faire. Toi, tu racontes ton métier&nbsp;;
+  {{NOM_COPILOTE}} en fait une fiche.
+</p>
+
+<!--
+  PARCOURS D'UN BESOIN — quatre étapes, à garder telles quelles.
+  C'est une seconde liste `ol.steps` : son compteur repart à 1, indépendamment de la frise du
+  phasing plus bas. Ne pas fusionner les deux listes, elles ne racontent pas la même chose.
+  Ici les <li> décrivent un aller-retour, pas des jalons du projet : seule la dernière étape porte
+  une porte de sortie, parce que c'est là que le destinataire valide.
+-->
+<ol class="steps">
+  <li>
+    <h3>Tu racontes</h3>
+    <p>Comment ça se passe aujourd'hui&nbsp;: qui fait quoi, quand, avec quoi, et ce qui coince
+    vraiment. <strong>Ton métier, pas l'écran que tu imagines.</strong> {{NOM_COPILOTE}} te pose des
+    questions simples, <strong>une à la fois</strong>, en français courant — s'il t'en envoie dix d'un
+    coup, dis-le-lui, c'est lui qui s'y prend mal.</p>
+  </li>
+  <li>
+    <h3>Il reformule, tu confirmes</h3>
+    <p>Il te redit ce qu'il a compris, avec ses mots, et attend ton accord <strong>avant</strong>
+    d'écrire quoi que ce soit. C'est le moment le moins cher pour corriger&nbsp;: un besoin mal compris
+    coûte dix fois plus une fois codé.</p>
+  </li>
+  <li>
+    <h3>Il rédige la fiche</h3>
+    <p>Une fiche par besoin&nbsp;: qui s'en sert, ce qu'il fait, ce que ça lui apporte — et la liste de
+    ce qu'on doit <strong>pouvoir constater à l'écran</strong> pour dire que c'est fait. Avec un numéro
+    et une priorité. Ce qui ne peut pas se montrer n'est pas une fiche.</p>
+  </li>
+  <li>
+    <h3>Tu valides, et ça se range</h3>
+    <p>La fiche validée rejoint le dépôt — et seulement là. Rien n'est mis en chantier avant.</p>
+    <p class="gate"><b>Tu valides quand&nbsp;:</b> tu peux redire la fiche <b>dans tes mots à toi</b>.
+    Si tu n'y arrives pas, elle n'est pas bonne&nbsp;: on la reprend.</p>
+  </li>
+</ol>
+
+<div class="callout">
+  <p><strong>Tu ne rédiges rien toi-même.</strong> Tu es l'expert de ton métier&nbsp;; mettre ce métier
+  en fiches est le travail de {{NOM_COPILOTE}}. S'il te demande d'écrire tes besoins à sa place, c'est
+  qu'il a perdu le fil — renvoie-le à cette page.</p>
+</div>
+
+<h2>Où atterrit quoi&nbsp;— et qui a raison</h2>
+<p class="sub">Trois endroits, trois usages. Un seul fait foi&nbsp;: si deux se contredisent, tu sais lequel croire.</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Endroit</th><th>Ce qu'on y met</th><th>Fait foi&nbsp;?</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Le dépôt — <code>{{DOSSIER_SPEC}}</code></td>
+      <td>Les fiches de besoin et la spécification, en fichiers.</td>
+      <td><strong>Oui — c'est la référence</strong></td>
+    </tr>
+    <tr>
+      <td>{{TABLEAU_SUIVI}}</td>
+      <td>L'avancement&nbsp;: une carte par fiche, <strong>tirée</strong> des fichiers.</td>
+      <td>Non — ça se refabrique</td>
+    </tr>
+    <tr>
+      <td>{{WIKI}}</td>
+      <td>Ce qu'un humain vient lire hors du code&nbsp;: les décisions et leur raison, les procédures,
+      les modes d'emploi.</td>
+      <td>Pour son sujet seul</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+  <strong>Une carte ne se remplit jamais avant le fichier.</strong> Si une carte de {{TABLEAU_SUIVI}}
+  dit autre chose que le fichier du dépôt, c'est le fichier qui a raison&nbsp;: la carte se refait. Et
+  on ne recopie jamais une spécification dans {{WIKI}} — deux versions du même texte finissent
+  toujours par se contredire, et personne ne sait plus laquelle lire.
+</p>
+
+<div class="callout warn">
+  <p><strong>Le dépôt est privé, et il doit le rester.</strong> Le rendre public est une décision de
+  {{ACCOMPAGNANT}}, jamais un réglage qu'on coche en passant&nbsp;: il contient le fonctionnement et
+  les données de {{ORGANISATION}}. Si tu croises ce bouton dans les réglages, n'y touche pas.</p>
+</div>
+
+<div class="callout warn">
+  <p><strong>⚠️ À TRANCHER&nbsp;: qui crée concrètement les cartes et les pages&nbsp;?</strong>
+  {{NOM_COPILOTE}} ne voit pas le dépôt, {{IA_QUI_CODE}} ne sait pas toujours créer une carte, et tu
+  n'as peut-être pas le droit de le faire toi-même. À décider avec {{ACCOMPAGNANT}} avant de démarrer,
+  et à écrire ici noir sur blanc — sinon chacun supposera que c'est l'autre qui s'en charge.</p>
+</div>
+
+<h2>Avant de commencer&nbsp;: ce dont on a besoin</h2>
+<p class="sub">Tant que ces points ne sont pas levés, rien ne peut démarrer.</p>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr><th>Ce qu'il faut</th><th>Qui s'en charge</th><th>Pourquoi c'est bloquant</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ton accès au dépôt <a href="{{URL_DEPOT}}"><code>{{DEPOT}}</code></a></td>
+      <td>{{ACCOMPAGNANT}} t'invite</td>
+      <td>C'est là que vivent le code et toute cette documentation.</td>
+    </tr>
+    <tr>
+      <td>Ton accès au dépôt <code>{{DEPOT_METHODE}}</code></td>
+      <td>{{ACCOMPAGNANT}} t'invite</td>
+      <td>C'est le modèle de méthode dont {{NOM_COPILOTE}} se sert comme référence.</td>
+    </tr>
+    <tr>
+      <td>{{NOM_COPILOTE}} mis en place</td>
+      <td>Toi — texte fourni, à copier-coller</td>
+      <td>Sans lui, personne ne tient la méthode à la place de {{ACCOMPAGNANT}}.</td>
+    </tr>
+    <tr>
+      <td>Un compte {{OUTIL_SCHEMA}} <em>(gratuit)</em></td>
+      <td>Toi</td>
+      <td>Pour dessiner et valider les écrans avant qu'ils soient codés.</td>
+    </tr>
+    <tr>
+      <td>Ton accès à {{HEBERGEUR}}</td>
+      <td>{{ACCOMPAGNANT}} t'ajoute comme collaborateur</td>
+      <td>C'est là que la nouvelle application sera mise en ligne. Le compte est le sien&nbsp;: tu es
+      invité dessus, tu n'en ouvres pas.</td>
+    </tr>
+    <tr>
+      <td>Ce que tu as déjà par écrit sur ton activité <em>(classeurs, modèles de documents, procédures)</em></td>
+      <td>Toi — rien à rédiger, juste à rassembler</td>
+      <td>Tout ce que {{NOM_COPILOTE}} ignore, il le redemandera ou l'inventera.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Les comptes ne sont pas les tiens&nbsp;— et c'est voulu</h2>
+<p class="sub">
+  Tu n'ouvres aucun compte payant et tu ne donnes aucune carte bancaire. {{ACCOMPAGNANT}} t'invite sur
+  les siens, une fois — et ensuite tu travailles seul dessus.
+</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Ce que tu fais seul, sans rien demander</th><th>Ce qui reste à {{ACCOMPAGNANT}}</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Mettre la nouvelle version en ligne</td>
+      <td>T'inviter la première fois — sur {{HEBERGEUR}} et sur <code>{{DEPOT}}</code></td>
+    </tr>
+    <tr>
+      <td>Consulter les journaux quand quelque chose ne marche pas</td>
+      <td>Tout ce qui touche à un paiement ou au passage à un plan payant</td>
+    </tr>
+    <tr>
+      <td>Tenir {{TABLEAU_SUIVI}} et {{WIKI}} à jour</td>
+      <td>Rendre un dépôt public</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <p><strong>Le piège&nbsp;: prendre l'habitude de lui demander à chaque fois.</strong>
+  {{ACCOMPAGNANT}} n'est plus disponible au quotidien — c'est tout le point de cette passation. Si
+  chaque mise en ligne attend sa réponse, le projet s'arrête au premier jour où il ne répond pas. Les
+  accès se donnent <strong>une fois</strong>&nbsp;; ensuite, tu avances.</p>
+</div>
+
+<div class="callout">
+  <p><strong>Quand une demande lui revient vraiment</strong>, c'est {{NOM_COPILOTE}} qui t'écrit le
+  message, prêt à envoyer&nbsp;: ce que tu demandes en une phrase · pourquoi maintenant · ce qui est
+  bloqué en attendant · ce que tu dois recevoir en retour pour savoir que c'est fait. Et il enchaîne
+  toujours par <strong>ce que tu peux avancer pendant l'attente</strong> — tu ne restes jamais à
+  attendre les bras ballants.</p>
+</div>
+
+<h2>Les outils, et ce qu'ils coûtent</h2>
+<p class="sub">Aucune dépense ne se déclenche sans que tu l'aies vue venir, même quand ce n'est pas toi qui paies.</p>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr><th>Outil</th><th>À quoi il sert</th><th>Qui s'en sert</th><th class="num">Coût</th><th>Sur le compte de</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>{{ABONNEMENT_IA}}</td><td>{{IA_QUI_CODE}} + {{NOM_COPILOTE}}</td><td>Toi</td><td class="num">Déjà payé</td><td>Toi</td></tr>
+    <tr><td>{{PLATEFORME_DEPOT}}</td><td>Conserve le code et cette documentation</td><td>Toi + {{IA_QUI_CODE}}</td><td class="num">Gratuit</td><td>{{ACCOMPAGNANT}}</td></tr>
+    <tr><td>{{OUTIL_SCHEMA}}</td><td>Dessiner les écrans avant de les coder</td><td>Toi + {{NOM_COPILOTE}}</td><td class="num">Gratuit</td><td>Toi</td></tr>
+    <tr><td>{{HEBERGEUR}}</td><td>Héberger la nouvelle application en ligne</td><td>{{IA_QUI_CODE}} met en place</td><td class="num">{{COUT_HEBERGEUR}}</td><td>{{ACCOMPAGNANT}}</td></tr>
+    <tr><td>{{STACK_ACTUELLE}}</td><td>Reste en service comme secours pendant tout le chantier</td><td>Tes équipes</td><td class="num">Inchangé</td><td>{{ORGANISATION}}</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <p><strong>{{NOM_COPILOTE}} doit t'annoncer le coût de tout outil payant avant que tu t'engages —
+  même quand la facture part chez {{ACCOMPAGNANT}}.</strong> Ce n'est pas ton portefeuille qui est en
+  jeu, c'est ta décision. S'il ne le fait pas, demande-le&nbsp;: c'est dans ses instructions.</p>
+</div>
+
+<h2>Le chemin, étape par étape</h2>
+<p class="sub">
+  Une seule étape ouverte à la fois. Chacune se termine par une <strong>porte de sortie</strong>&nbsp;:
+  quelque chose que tu constates et que tu valides. Tant que tu ne l'as pas franchie, on ne passe pas
+  à la suivante — c'est la règle qui empêche le chantier de partir dans tous les sens.
+</p>
+
+<!--
+  FRISE DES ÉTAPES — trois exemples ci-dessous, à adapter et à compléter.
+
+  Pour ajouter une étape : dupliquer un bloc <li> entier et le placer dans l'ordre. La numérotation
+  est automatique (compteur CSS), il n'y a jamais de numéro à écrire à la main.
+
+  Chaque <li> porte trois choses, et jamais moins :
+    <h3>            le nom de l'étape, en langage du destinataire — pas de jargon technique ;
+    <p>             ce qui se passe pendant l'étape, en une phrase ;
+    <p class="gate"> la PORTE DE SORTIE : ce que le destinataire CONSTATE lui-même. Formulée comme un
+                    fait vérifiable (« tu ouvres une adresse et tu vois une page »), jamais comme une
+                    intention (« le déploiement est prêt »). Une étape sans porte de sortie n'est pas
+                    une étape.
+
+  Classes optionnelles sur le <li> : `now` (étape en cours, pastille accentuée), `done` (étape
+  franchie, pastille verte). Aucune classe = étape à venir.
+
+  Les étapes doivent aller jusqu'à la bascule réelle et nommer, en dernier,
+  {{PREMIERE_FONCTIONNALITE_APRES}} — la première nouveauté autorisée. La nommer d'avance coupe court
+  à « et si on ajoutait juste ça&nbsp;? » pendant le chantier.
+-->
+<ol class="steps">
+  <li class="now">
+    <h3>Mise en route</h3>
+    <p>Tes accès, {{IA_QUI_CODE}} à jour, {{NOM_COPILOTE}} en place, {{OUTIL_SCHEMA}} ouvert.</p>
+    <p class="gate"><b>Tu valides quand&nbsp;:</b> {{NOM_COPILOTE}} te répond en te cadrant la première étape.</p>
+  </li>
+  <li>
+    <h3>Cadrage du chantier</h3>
+    <p>On confirme ensemble ce qui est fait, ce qu'on ne fait pas, et le budget.</p>
+    <p class="gate"><b>Tu valides quand&nbsp;:</b> tu peux dire en une phrase ce que le chantier fera et ne fera pas.</p>
+  </li>
+  <li>
+    <h3>{{PREMIERE_FONCTIONNALITE_APRES}}</h3>
+    <p>La première nouveauté, et seulement une fois tout le reste terminé.</p>
+    <p class="gate"><b>Tu valides quand&nbsp;:</b> tu constates toi-même qu'elle fonctionne, sur tes vraies données.</p>
+  </li>
+</ol>
+
+<div class="callout ok">
+  <p><strong>La règle qui protège tout le reste&nbsp;: on ne touche à rien de neuf tant que le chantier
+  en cours n'est pas terminé.</strong> C'est frustrant — et c'est exactement pour ça qu'elle est écrite
+  ici, à l'avance. La première nouveauté est déjà choisie&nbsp;: {{PREMIERE_FONCTIONNALITE_APRES}}. Tout
+  le reste attend son tour.</p>
+</div>
+
+<h2>Où trouver quoi</h2>
+<p class="sub">Tout est dans le dépôt, dossier <code>{{DOSSIER_PAQUET}}</code>. Une synchronisation dans {{IA_QUI_CODE}} et tu as la dernière version.</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Fichier</th><th>Pour qui</th><th>Ce qu'il contient</th></tr></thead>
+  <tbody>
+    <tr><td><code>README.md</code></td><td><strong>Toi, d'abord</strong></td><td>La mise en route pas à pas. Commence par là.</td></tr>
+    <tr><td><code>00-methode-et-roles.md</code></td><td>{{NOM_COPILOTE}}</td><td>La méthode, les rôles, et le texte exact à coller pour le mettre en place.</td></tr>
+    <tr><td><code>01-phasing-et-checklist.md</code></td><td>{{NOM_COPILOTE}} et toi</td><td>Le détail de chaque étape et sa porte de sortie.</td></tr>
+    <tr><td><code>02-contexte.md</code></td><td>{{NOM_COPILOTE}}</td><td>Tout ce qui est déjà décidé sur ton métier&nbsp;: à ne pas redemander.</td></tr>
+    <tr><td><code>03-stack-et-decisions-techniques.md</code></td><td>{{IA_QUI_CODE}}</td><td>Les consignes techniques avant d'écrire la moindre ligne.</td></tr>
+    <tr><td>cette page</td><td>Toi</td><td>La vue d'ensemble, à relire quand tu perds le fil.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Et si ça coince</h2>
+<ul class="plain">
+  <li><strong>{{NOM_COPILOTE}} enchaîne sans t'expliquer&nbsp;?</strong> Dis-lui&nbsp;: « rappelle-moi le
+  cadre de l'étape avant d'avancer ». C'est dans ses instructions, il doit le faire.</li>
+  <li><strong>Il parle d'un fichier qu'il n'a pas&nbsp;?</strong> Il ne voit pas le dépôt. Copie-lui le
+  fichier — et méfie-toi s'il décrit son contenu sans que tu le lui aies donné.</li>
+  <li><strong>Tu ne comprends pas un mot&nbsp;?</strong> Demande. Il a une casquette de mentor, c'est
+  exactement son rôle — et un mot non compris aujourd'hui est une décision subie demain.</li>
+  <li><strong>On te propose d'ajouter « juste une petite chose »&nbsp;?</strong> Note-la, et refuse-la
+  pour l'instant. Un seul chantier à la fois.</li>
+  <li><strong>{{NOM_COPILOTE}} te demande d'écrire tes besoins toi-même&nbsp;?</strong> C'est l'inverse
+  de son rôle. Redis-lui de te poser des questions simples, une à la fois, sur ton métier — et de
+  rédiger les fiches lui-même ensuite.</li>
+  <li><strong>Un blocage d'accès&nbsp;?</strong> Dépôt ou hébergement, c'est pour {{ACCOMPAGNANT}} —
+  lui seul peut inviter, et il ne le fait qu'une fois. Demande à {{NOM_COPILOTE}} de t'écrire le
+  message&nbsp;: ce n'est pas à toi de trouver les bons mots.</li>
+  <li><strong>Tu attends une réponse de {{ACCOMPAGNANT}}&nbsp;?</strong> Demande à {{NOM_COPILOTE}} ce
+  que tu peux avancer entre-temps. Il y a presque toujours quelque chose — et s'il te laisse à l'arrêt
+  sans rien proposer, réclame-le.</li>
+  <li><strong>Une carte de {{TABLEAU_SUIVI}} dit autre chose que le fichier du dépôt&nbsp;?</strong>
+  Le fichier a raison. Fais refaire la carte, jamais l'inverse.</li>
+</ul>
+
+<footer>
+  {{PROJET}} — document de passation à {{DESTINATAIRE}} · {{VERSION}} — {{DATE}}
+</footer>
+
+</div>
+</body>
+</html>
