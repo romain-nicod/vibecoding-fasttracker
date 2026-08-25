@@ -8,6 +8,11 @@ remet à quelqu'un qui débute, et que son IA lira pour tenir le cadre à notre 
 
 ---
 
+## La présentation
+
+Une page autonome qui présente le dispositif à quelqu'un qui pourrait l'adopter :
+[`presentation.html`](presentation.html). Elle s'ouvre dans un navigateur, sans rien installer.
+
 ## Le problème
 
 Un accompagnement au vibe coding échoue toujours au même endroit. On transmet le code, on oublie de

@@ -1,0 +1,520 @@
+<title>Vibecoding Fasttracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  /* ── Palette claire : papier calque bleu-gris, encre marine, laiton pour les portes ── */
+  :root {
+    --paper:      #EDF1F6;
+    --surface:    #FFFFFF;
+    --surface-2:  #E3E9F1;
+    --ink:        #0F1828;
+    --muted:      #57657E;
+    --line:       #CFD8E5;
+    --line-soft:  #E0E6EF;
+    --accent:     #1B3F8B;
+    --accent-ink: #FFFFFF;
+    --signal:     #9A6A11;
+    --signal-bg:  #F6EEDC;
+    --grid:       rgba(27, 63, 139, .07);
+    --shadow:     0 1px 2px rgba(15, 24, 40, .05), 0 8px 24px -12px rgba(15, 24, 40, .18);
+
+    --maxw: 60rem;
+    --col:  34rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0B1120;
+      --surface:    #121B2C;
+      --surface-2:  #182238;
+      --ink:        #E6EBF4;
+      --muted:      #94A2BA;
+      --line:       #26314B;
+      --line-soft:  #1C2639;
+      --accent:     #86A8FF;
+      --accent-ink: #0B1120;
+      --signal:     #D9A84E;
+      --signal-bg:  #221B0D;
+      --grid:       rgba(134, 168, 255, .09);
+      --shadow:     0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #0B1120;
+    --surface:    #121B2C;
+    --surface-2:  #182238;
+    --ink:        #E6EBF4;
+    --muted:      #94A2BA;
+    --line:       #26314B;
+    --line-soft:  #1C2639;
+    --accent:     #86A8FF;
+    --accent-ink: #0B1120;
+    --signal:     #D9A84E;
+    --signal-bg:  #221B0D;
+    --grid:       rgba(134, 168, 255, .09);
+    --shadow:     0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    text-wrap: balance;
+    letter-spacing: -.018em;
+    margin: 0;
+  }
+
+  .mono, code, .marker, .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  p, li, td, th, h1, h2, h3 { overflow-wrap: break-word; }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── En-tête : calque technique ── */
+  .hero {
+    border-bottom: 1px solid var(--line);
+    background:
+      repeating-linear-gradient(to right,  var(--grid) 0 1px, transparent 1px 3rem),
+      repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px 3rem),
+      var(--surface);
+  }
+  .hero .wrap { padding-top: 4.5rem; padding-bottom: 3.5rem; }
+
+  .eyebrow {
+    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-bottom: 1.4rem;
+  }
+
+  h1 { font-size: clamp(2.5rem, 7vw, 4.25rem); font-weight: 800; line-height: 1.02; }
+
+  .thesis {
+    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+    max-width: var(--col);
+    margin: 1.6rem 0 0;
+    color: var(--ink);
+  }
+  .thesis em { font-style: italic; }
+
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.75rem;
+    margin-top: 2.25rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--line-soft);
+    font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--muted);
+  }
+
+  /* ── Sections ── */
+  section { padding: 3.75rem 0; border-bottom: 1px solid var(--line-soft); }
+  section:last-of-type { border-bottom: 0; }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
+    max-width: var(--col); margin-bottom: 1.1rem;
+  }
+  h3 { font-size: 1.06rem; font-weight: 700; letter-spacing: 0; }
+
+  section > .wrap > p,
+  section > .wrap > ul { max-width: var(--col); }
+  p { margin: 0 0 1.1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  .lead-out { color: var(--muted); }
+
+  /* ── Diptyque des deux IA ── */
+  .diptych { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
+             margin-top: 2rem; box-shadow: var(--shadow); }
+  @media (min-width: 44rem) { .diptych { grid-template-columns: 1fr 1fr; } }
+  .panel { background: var(--surface); padding: 1.6rem 1.5rem; }
+  .panel .role {
+    font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .6rem;
+  }
+  .panel h3 { margin-bottom: 1rem; }
+  .panel dl { margin: 0; display: grid; gap: .75rem; }
+  .panel dt {
+    font-family: "IBM Plex Mono", monospace; font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .panel dd { margin: .15rem 0 0; }
+
+  /* ── Le rappel imposé : une vraie séquence, donc numérotée ── */
+  .recital { counter-reset: r; list-style: none; padding: 0; margin: 2rem 0 0;
+             max-width: 42rem; display: grid; gap: 0; }
+  .recital li {
+    counter-increment: r; position: relative;
+    padding: .7rem 0 .7rem 3rem; border-top: 1px solid var(--line-soft);
+  }
+  .recital li:last-child { border-bottom: 1px solid var(--line-soft); }
+  .recital li::before {
+    content: counter(r, decimal-leading-zero);
+    position: absolute; left: 0; top: .78rem;
+    font-family: "IBM Plex Mono", monospace; font-size: .78rem;
+    color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+
+  /* ── La porte de sortie : le dispositif central ── */
+  .gate {
+    margin: 2rem 0 0; padding: 1.25rem 1.4rem;
+    background: var(--signal-bg);
+    border: 1px solid var(--signal);
+    border-left-width: 3px;
+    max-width: 42rem;
+  }
+  .gate .marker {
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--signal); display: block; margin-bottom: .4rem;
+  }
+  .gate p { margin: 0; }
+
+  /* ── Tableaux ── */
+  .tablewrap { overflow-x: auto; margin-top: 2rem; border: 1px solid var(--line);
+               background: var(--surface); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: .93rem; }
+  th, td { text-align: left; padding: .8rem 1rem; border-bottom: 1px solid var(--line-soft);
+           vertical-align: top; }
+  thead th {
+    font-family: "IBM Plex Mono", monospace; font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500;
+    background: var(--surface-2); border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; }
+
+  /* ── Livrables ── */
+  .parts { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1px;
+           background: var(--line); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  @media (min-width: 40rem) { .parts { grid-template-columns: 1fr 1fr; } }
+  .parts li { background: var(--surface); padding: 1.1rem 1.25rem; }
+  .parts .file {
+    font-family: "IBM Plex Mono", monospace; font-size: .76rem; color: var(--accent);
+    display: block; margin-bottom: .35rem;
+  }
+  .parts .who {
+    font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); display: block; margin-top: .5rem;
+  }
+
+  /* ── Mise en route ── */
+  .steps { list-style: none; counter-reset: s; padding: 0; margin: 2rem 0 0; max-width: 42rem;
+           display: grid; gap: 1.5rem; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 2.6rem; }
+  .steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: -.1rem;
+    width: 1.75rem; height: 1.75rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent); color: var(--accent-ink);
+    font-family: "IBM Plex Mono", monospace; font-size: .8rem;
+  }
+  pre {
+    margin: .7rem 0 0; padding: .8rem 1rem; overflow-x: auto;
+    background: var(--surface); border: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace; font-size: .82rem; line-height: 1.5;
+  }
+  code { font-size: .88em; }
+  p > code, li > code, td > code {
+    background: var(--surface-2); padding: .08rem .3rem; border-radius: 2px;
+  }
+
+  .rule {
+    margin-top: 2rem; padding-left: 1rem; border-left: 3px solid var(--accent);
+    max-width: 42rem; color: var(--ink);
+  }
+
+  ul.plain { padding-left: 1.15rem; }
+  ul.plain li { margin-bottom: .45rem; }
+
+  footer {
+    padding: 2.5rem 0 3.5rem; color: var(--muted); font-size: .85rem;
+    border-top: 1px solid var(--line);
+  }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a { transition: color .15s ease; }
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Gabarit de passation · AI-GMENTED</span>
+    <h1>Vibecoding<br>Fasttracker</h1>
+    <p class="thesis">Amener un débutant complet à l'autonomie&nbsp;— de façon que <em>son</em> IA
+    prenne le relais du <strong>pilotage</strong> d'un projet, pas seulement de l'écriture du code.</p>
+    <div class="hero-meta">
+      <span>Skill Claude + 6 gabarits</span>
+      <span>Français</span>
+      <span>Premier cas réel&nbsp;: une refonte livrée</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Le problème, toujours le même</h2>
+    <p>Un accompagnement au vibe coding échoue au même endroit. On transmet le code, on oublie de
+    transmettre la méthode.</p>
+    <p>L'IA du débutant se met alors à coder tout ce qu'on lui demande&nbsp;: sans cadre, sans porte de
+    sortie, sans périmètre fini. Chaque bonne idée entre dans le chantier en cours. Le projet
+    s'éparpille, puis s'arrête&nbsp;— et personne ne sait dire à quel moment il a déraillé.</p>
+    <p class="lead-out">Le Fasttracker transmet les deux.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Deux IA, deux métiers, jamais confondus</h2>
+    <p>C'est la décision qui structure tout le reste. Une seule IA qui code <em>et</em> décide de la
+    méthode n'a personne pour l'arrêter.</p>
+
+    <div class="diptych">
+      <div class="panel">
+        <span class="role">Rôle 1</span>
+        <h3>L'IA qui code</h3>
+        <dl>
+          <dt>Fait</dt>
+          <dd>Écrit et exécute le code, dans le dépôt.</dd>
+          <dt>Ne fait pas</dt>
+          <dd>Ne décide jamais de la méthode ni de l'ordre des étapes.</dd>
+        </dl>
+      </div>
+      <div class="panel">
+        <span class="role">Rôle 2</span>
+        <h3>L'IA qui pilote</h3>
+        <dl>
+          <dt>Fait</dt>
+          <dd>Cadre, conçoit, relit ce que l'autre produit, tient la méthode et les portes de sortie.</dd>
+          <dt>Ne fait pas</dt>
+          <dd>Ne touche jamais au code&nbsp;— et ne prétend jamais l'avoir exécuté.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="rule">
+      <p>L'IA qui pilote porte un <strong>double rôle</strong>&nbsp;: garante de la solution
+      (architecte, QA, gardienne des portes de sortie) et <strong>mentor</strong>&nbsp;— elle fait
+      monter le destinataire en compétence sur ce qu'il doit comprendre pour rester aux commandes,
+      sans jamais le noyer de jargon.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Le rappel imposé avant chaque étape</h2>
+    <p>L'IA pilote ne démarre jamais une étape sans réciter ces sept points, dans cet ordre. C'est ce
+    qui empêche un débutant de se retrouver devant un travail qu'il n'a pas demandé.</p>
+
+    <ol class="recital">
+      <li>Le cadre de l'étape&nbsp;: où on en est, pourquoi celle-ci maintenant.</li>
+      <li>Les livrables attendus à la fin.</li>
+      <li>Ce qui est attendu d'elle, et ce qui est attendu de lui.</li>
+      <li>Les prérequis&nbsp;: quoi produire, dans quel outil, avant de pouvoir avancer.</li>
+      <li>Ce qu'il devra explicitement valider.</li>
+      <li>Les outils utilisés, et ce qu'ils coûtent.</li>
+      <li>L'étape qui viendra ensuite.</li>
+    </ol>
+
+    <div class="gate">
+      <span class="marker">Porte de sortie</span>
+      <p>Aucune étape ne s'enchaîne sans validation explicite de la précédente&nbsp;— pas «&nbsp;ça a
+      l'air bon&nbsp;», un accord écrit. Et <strong>un seul lot ouvert à la fois</strong>&nbsp;: une
+      bonne idée qui surgit en cours de route va dans une liste «&nbsp;plus tard&nbsp;», jamais dans
+      le chantier en cours.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Les deux bouts de la chaîne</h2>
+    <p>La confusion la plus coûteuse&nbsp;: croire que l'outil et le livrable s'adressent à la même
+    personne. Ils ne s'adressent jamais à la même personne.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Qui</th><th>Son rôle</th><th>Avec quoi</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L'accompagnant</td>
+            <td>Prépare la passation&nbsp;— c'est vous</td>
+            <td>La <strong>skill Claude</strong> de ce dépôt</td>
+          </tr>
+          <tr>
+            <td>Le débutant</td>
+            <td>Reçoit la passation et pilote ensuite</td>
+            <td><strong>Son IA à lui</strong>&nbsp;— ChatGPT, Claude, autre</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule">
+      <p><strong>Le destinataire n'ouvre jamais un terminal.</strong> Tout ce que les gabarits lui
+      demandent se fait dans une interface web ou une application, avec la page où aller, le bouton
+      exact, et ce qu'il doit voir à la fin pour savoir que c'est réussi. Une commande shell dans un
+      livrable destinataire est un défaut, pas un raccourci.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Ce que produit une passation</h2>
+    <p>Six documents, déposés dans le dépôt du projet transmis. Chacun a un lecteur unique&nbsp;—
+    c'est ce qui les rend lisibles.</p>
+
+    <ul class="parts">
+      <li>
+        <span class="file">README-mise-en-route.md</span>
+        Les gestes d'installation, un par un&nbsp;: la page, le bouton, ce qu'on doit voir à la fin.
+        <span class="who">Lecteur&nbsp;: le débutant</span>
+      </li>
+      <li>
+        <span class="file">00-methode-et-roles.md</span>
+        Les rôles, le rappel imposé, et le texte complet à coller dans son IA pour la configurer.
+        <span class="who">Lecteur&nbsp;: l'IA qui pilote</span>
+      </li>
+      <li>
+        <span class="file">01-phasing-et-checklist.md</span>
+        Le plan de vol&nbsp;: les étapes, leurs portes de sortie, la checklist à cocher.
+        <span class="who">Lecteur&nbsp;: les deux</span>
+      </li>
+      <li>
+        <span class="file">02-contexte.md</span>
+        Le métier consolidé&nbsp;: données, règles, droits, indicateurs, et les pièges déjà payés.
+        <span class="who">Lecteur&nbsp;: l'IA qui pilote</span>
+      </li>
+      <li>
+        <span class="file">03-stack-et-decisions-techniques.md</span>
+        Le brief prescriptif&nbsp;: ce que l'ancien socle assurait gratuitement et qu'il faut
+        réimplémenter nommément.
+        <span class="who">Lecteur&nbsp;: l'IA qui code</span>
+      </li>
+      <li>
+        <span class="file">handover.html</span>
+        La vue d'ensemble en une page, autonome, imprimable, lisible hors ligne.
+        <span class="who">Lecteur&nbsp;: le débutant</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Mise en route</h2>
+    <p>Côté accompagnant. Comptez une session pour produire le paquet, puis une relecture.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Installer la skill</h3>
+        <p>Une copie dans votre configuration Claude Code.</p>
+        <pre>cp -R skill/vibecoding-fasttracker ~/.claude/skills/</pre>
+      </li>
+      <li>
+        <h3>L'invoquer dans le dépôt à transmettre</h3>
+        <p>Ouvrez une session Claude Code dans le projet concerné.</p>
+        <pre>/vibecoding-fasttracker</pre>
+      </li>
+      <li>
+        <h3>Répondre à ce qu'elle ne peut pas deviner</h3>
+        <p>Qui reçoit, quel projet, quelle IA de l'autre côté, quels outils, qui détient les comptes.
+        Elle produit ensuite le paquet complet.</p>
+      </li>
+      <li>
+        <h3>Relire, trancher, transmettre</h3>
+        <p>Elle marque <code>⚠️ À TRANCHER</code> partout où elle a refusé d'inventer&nbsp;— complétez
+        ces points, committez, et donnez l'adresse du dépôt. Le destinataire commence par le
+        <code>README</code> du paquet.</p>
+      </li>
+    </ol>
+
+    <div class="rule">
+      <p>La skill s'édite <strong>dans ce dépôt</strong>, jamais dans <code>~/.claude/skills/</code>.
+      Ce dossier-là est une installation&nbsp;: ce qu'on y modifie est perdu à la copie suivante.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Sa place face à <span class="mono">kickoff</span></h2>
+    <p>Les deux gabarits ne se recouvrent pas, et ne s'appliquent jamais au même dépôt sans arbitrage
+    explicite&nbsp;: ils écriraient les mêmes sujets sous des noms de fichiers différents.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th></th><th>kickoff</th><th>Vibecoding Fasttracker</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pour qui</td>
+            <td>Quelqu'un qui sait déjà mener un projet</td>
+            <td>Quelqu'un qui débute complètement</td>
+          </tr>
+          <tr>
+            <td>Ce qu'il installe</td>
+            <td>La méthode dans un dépôt&nbsp;: DoR/DoD, spécification → issues, jalons, board</td>
+            <td>La passation vers une IA tierce, et la montée en compétence de l'humain</td>
+          </tr>
+          <tr>
+            <td>Ce qu'il suppose acquis</td>
+            <td>Terminal, Git, GitHub</td>
+            <td>Rien</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:1.5rem">Le Fasttracker <strong>renvoie</strong> à <span class="mono">kickoff</span>
+    pour toute la méthode de projet. Il ne réécrit pas sa Definition of Done et ne redéfinit pas ses
+    jalons&nbsp;: une règle qui change, change là-bas. Deux textes de méthode divergent toujours.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>D'où il vient</h2>
+    <p>Le Fasttracker n'a pas été imaginé à froid. Il a été extrait d'une passation réelle&nbsp;: une
+    application de facturation en production, transmise à son propriétaire&nbsp;— débutant complet,
+    qui ne code pas et n'ouvrira jamais un terminal&nbsp;— pour qu'il en pilote la refonte avec son
+    propre ChatGPT.</p>
+    <p>Tout ce qui est dans les gabarits y est parce que quelque chose manquait ce jour-là. Les trois
+    questions qu'on oublie systématiquement de poser en font partie&nbsp;:</p>
+    <ul class="plain">
+      <li>Qui paie quoi, et à partir de quand&nbsp;?</li>
+      <li>Qui recueille les besoins&nbsp;— parce que sans réponse, ça retombe sur celui qui ne sait
+      pas le faire.</li>
+      <li>Pourquoi refaire ce qui fonctionne déjà&nbsp;? Une décision non écrite se rediscute à chaque
+      difficulté.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Vibecoding Fasttracker&nbsp;— AI-GMENTED</span>
+    <span class="mono">Tous droits réservés</span>
+  </div>
+</footer>
