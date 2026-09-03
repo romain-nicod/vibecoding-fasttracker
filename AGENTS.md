@@ -52,9 +52,12 @@ the two produces a skill that addresses the wrong person.
 **English for everything that describes the method**: this file, the README, the skill, commit
 messages.
 
-**The deliverable templates in `templates/` are in French**, and that is deliberate. They are read
-by the recipient rather than by a developer, and the first cases were French-speaking. A template is
-one file: translating it is a translation job, not a restructuring one. If you add a language, add
-it beside the existing file rather than replacing it.
+**The deliverable templates exist in both languages**, in `templates/en/` and `templates/fr/`. They
+are read by the handover recipient rather than by a developer, so the pack is produced in whichever
+language that person reads.
+
+The two sets are independent, placeholder names included: `{{RECIPIENT}}` on one side,
+`{{DESTINATAIRE}}` on the other. Never mix them inside one pack. A new language is a new directory,
+never a replacement of an existing one.
 
 File and directory names stay in ASCII `kebab-case`.

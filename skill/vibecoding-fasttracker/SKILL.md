@@ -91,8 +91,11 @@ the roles, the flight plan, and one consolidated reading of the business for the
 
 ## Step 2: the six deliverables
 
-Each has its template in `templates/`. Fill in, adapt, delete what does not apply, but do not change
+Each has its template in `templates/en/` and `templates/fr/`. **Pick the recipient's language**, since
+they are the ones who read the result. Fill in, adapt, delete what does not apply, but do not change
 the order or the split: it exists so that a lost recipient can always find where they are.
+
+The two language sets are independent, placeholder names included. Never mix them inside one pack.
 
 | # | Deliverable | Reader | What makes it good |
 |---|---|---|---|

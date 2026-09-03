@@ -111,6 +111,15 @@ explicite : ils écriraient les mêmes sujets sous des noms de fichiers différe
 Le Fasttracker **renvoie** à `kickoff` pour toute la méthode de projet. Il ne réécrit pas sa
 Definition of Done et ne redéfinit pas ses jalons. Une règle de méthode qui change, change là-bas.
 
+## Deux langues, côte à côte
+
+Les gabarits de livrables existent dans les deux : `templates/en/` et `templates/fr/`. Choisissez la
+langue du destinataire, c'est lui qui les lit.
+
+Les deux jeux sont indépendants, placeholders compris (`{{DESTINATAIRE}}` contre `{{RECIPIENT}}`),
+de sorte que chacun se lit comme s'il avait été écrit dans cette langue plutôt que traduit vers elle.
+Ajouter une troisième langue, c'est ajouter un dossier, pas restructurer quoi que ce soit.
+
 ## Licence
 
 [CC BY 4.0](LICENSE). Réutilisez, adaptez, vendez ce que vous en tirez. Gardez

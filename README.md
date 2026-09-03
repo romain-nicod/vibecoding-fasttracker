@@ -111,12 +111,14 @@ they would write the same subjects under different file names.
 The Fasttracker **points at** `kickoff` for the project method as a whole. It does not rewrite its
 Definition of Done and does not redefine its milestones. A method rule that changes, changes there.
 
-## A note on language
+## Two languages, side by side
 
-The deliverable templates in `templates/` are written in French, because they are read by the
-recipient rather than by a developer, and the first cases were French-speaking. The method around
-them is here in English. Translating a template is a matter of translating one file: the skill fills
-in whatever it is given.
+The deliverable templates exist in both: `templates/en/` and `templates/fr/`. Pick the recipient's
+language, since they are the ones who read them.
+
+The two sets are independent, placeholders included (`{{RECIPIENT}}` against `{{DESTINATAIRE}}`), so
+each one reads as though it had been written in that language rather than translated into it. Adding
+a third language means adding a directory, not restructuring anything.
 
 ## Licence
 
