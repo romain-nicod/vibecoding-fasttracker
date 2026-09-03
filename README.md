@@ -1,114 +1,124 @@
 # Vibecoding Fasttracker
 
-Amener un débutant complet à l'**autonomie en vibe coding** — de façon que son IA prenne le relais du
-**pilotage** d'un projet, pas seulement de l'écriture du code.
+*[Version française](README.fr.md)*
 
-Ce dépôt n'est pas une application. C'est un gabarit : il produit un **paquet de passation** que l'on
-remet à quelqu'un qui débute, et que son IA lira pour tenir le cadre à notre place.
+Take a complete beginner to **autonomy in vibe coding**, in such a way that their AI takes over the
+**steering** of a project, rather than only the writing of code.
 
----
-
-## La présentation
-
-Une page autonome qui présente le dispositif à quelqu'un qui pourrait l'adopter :
-[`presentation.html`](presentation.html). Elle s'ouvre dans un navigateur, sans rien installer.
-
-## Le problème
-
-Un accompagnement au vibe coding échoue toujours au même endroit. On transmet le code, on oublie de
-transmettre la méthode. L'IA du débutant se met alors à coder tout ce qu'on lui demande — sans cadre,
-sans porte de sortie, sans périmètre fini. Le projet s'éparpille, puis s'arrête.
-
-Le Fasttracker transmet les deux.
-
-## Le principe
-
-**Deux IA, deux rôles, jamais confondus.**
-
-| | L'IA qui code | L'IA qui pilote |
-|---|---|---|
-| Fait | écrit et exécute le code, dans le dépôt | cadre, conçoit, relit, tient la méthode |
-| Ne fait pas | ne décide pas de la méthode | ne touche jamais au code |
-
-**Un format d'étape imposé.** Avant chaque étape, l'IA pilote rappelle, dans cet ordre : le cadre de
-l'étape · les livrables · ce qui est attendu d'elle et du destinataire · les prérequis · ce que le
-destinataire doit valider · les outils utilisés · l'étape suivante. **Aucune étape ne s'enchaîne sans
-validation explicite de la précédente.**
-
-**Un double rôle pour l'IA pilote.** Garante de la solution — architecte, QA, gardienne de la méthode
-et des portes de sortie. Et mentor — elle fait monter le destinataire en compétence sur ce qu'il doit
-comprendre pour rester aux commandes, sans jamais le noyer de jargon.
-
-**Un seul lot ouvert à la fois.** C'est la règle qui protège le projet d'un chantier qui n'aboutit
-jamais.
+This repository is not an application. It is a template: it produces a **handover pack** that you
+give to someone who is starting out, and that their AI reads in order to hold the frame in your
+place.
 
 ---
 
-## Les deux bouts de la chaîne
+## The presentation
 
-🔴 Ne jamais les confondre — c'est l'erreur qui produit un gabarit qui parle au mauvais interlocuteur.
+A standalone page introducing the approach to someone who might adopt it:
+[`presentation.html`](presentation.html). It opens in a browser, with nothing to install.
 
-| | Qui | Avec quoi |
+## The problem
+
+Coaching someone through vibe coding always fails at the same point. The code gets handed over and
+the method does not. The beginner's AI then writes whatever it is asked for: no frame, no way out,
+no finite scope. The project sprawls, then stops.
+
+The Fasttracker hands over both.
+
+## The principle
+
+**Two AIs, two roles, never confused.**
+
+| | The AI that writes code | The AI that steers |
 |---|---|---|
-| **Celui qui prépare** la passation | l'accompagnant | la **skill Claude** de ce dépôt |
-| **Celui qui reçoit** la passation | le débutant | **son IA à lui** — ChatGPT, Claude, autre |
+| Does | writes and runs the code, in the repository | frames, designs, reviews, holds the method |
+| Does not | decide the method | ever touch the code |
 
-## Ce que contient ce dépôt
+**A fixed step format.** Before each step, the steering AI restates, in this order: the frame of the
+step, the deliverables, what is expected of it and of the recipient, the prerequisites, what the
+recipient has to approve, the tools involved, and the next step. **No step starts until the previous
+one has been explicitly approved.**
 
-| Dossier | Contenu |
+**A double role for the steering AI.** Guarantor of the solution: architect, QA, keeper of the method
+and of the ways out. And mentor: it brings the recipient up to speed on what they need to understand
+to stay in charge, without ever drowning them in jargon.
+
+**One batch open at a time.** That is the rule that protects a project from becoming a building site
+that never finishes.
+
+---
+
+## The two ends of the chain
+
+🔴 Never confuse them. That mistake produces a pack that addresses the wrong person.
+
+| | Who | With what |
+|---|---|---|
+| **Who prepares** the handover | the coach | the **Claude skill** in this repository |
+| **Who receives** the handover | the beginner | **their own AI**: ChatGPT, Claude, anything else |
+
+## What is in this repository
+
+| Directory | Contents |
 |---|---|
-| `templates/` | les gabarits de livrables, avec leurs placeholders — **la source du figé** |
-| `skill/vibecoding-fasttracker/` | la skill Claude : le jugement (quoi remplir, ce qui rend un livrable bon), jamais le texte figé |
-| `examples/` | les cas réels, en pointeur vers leur dépôt |
+| `templates/` | The deliverable templates, with their placeholders. **The source of everything fixed** |
+| `skill/vibecoding-fasttracker/` | The Claude skill: the judgement (what to fill in, what makes a deliverable good), never the fixed text |
+| `examples/` | Real cases, as pointers to their own repository |
 
 ---
 
-## Mise en route — côté accompagnant
+## Getting started, on the coach's side
 
-1. Installe la skill dans ta configuration Claude Code :
+1. Install the skill into your Claude Code configuration:
 
 ```bash
 cp -R skill/vibecoding-fasttracker ~/.claude/skills/
 ```
 
-2. Ouvre une session Claude Code dans le dépôt du projet à passer, et invoque la skill :
+2. Open a Claude Code session in the repository you are handing over, and invoke the skill:
 
 ```
 /vibecoding-fasttracker
 ```
 
-3. Elle te demande ce qu'elle ne peut pas deviner — qui reçoit, quel projet, quelle IA côté
-   destinataire, quels outils — puis produit le paquet de passation dans `docs/refonte/` (ou le
-   dossier que tu lui indiques).
+3. It asks you what it cannot guess: who is receiving, which project, which AI on their side, which
+   tools. Then it produces the handover pack in `docs/refonte/`, or whichever directory you name.
 
-4. Relis, complète ce qu'elle a marqué `⚠️ À TRANCHER`, committe, et donne au destinataire l'adresse
-   du dépôt. Son point d'entrée est le `README.md` du paquet.
+4. Read it, fill in whatever it marked `⚠️ À TRANCHER` (to be decided), commit, and give the
+   recipient the repository address. Their entry point is the pack's own `README.md`.
 
-🔴 **La skill s'édite ici, jamais dans `~/.claude/skills/`.** Ce dossier-là est une installation ;
-une modification faite là-bas est perdue à la prochaine copie.
+🔴 **The skill is edited here, never in `~/.claude/skills/`.** That directory is an install, and a
+change made there is lost on the next copy.
 
-## Mise en route — côté destinataire
+## Getting started, on the recipient's side
 
-Le destinataire n'ouvre **jamais** un terminal. Le paquet qu'il reçoit lui donne, pour chaque geste :
-la page où aller, le bouton exact à cliquer, et ce qu'il doit voir à la fin pour savoir que c'est
-réussi. Il commence par le `README.md` du paquet et ne lit rien d'autre tant qu'il n'a pas fini.
+The recipient **never** opens a terminal. For every action, the pack they receive gives them the page
+to go to, the exact button to click, and what they should see at the end to know it worked. They
+start with the pack's `README.md` and read nothing else until they are done.
 
 ---
 
-## Sa place face à `kickoff`
+## Where it sits next to `kickoff`
 
-🔴 **Les deux ne se recouvrent pas.** Ne jamais appliquer les deux au même dépôt sans arbitrage
-explicite : ils écriraient les mêmes sujets sous des noms de fichiers différents.
+🔴 **The two do not overlap.** Never apply both to the same repository without deciding explicitly:
+they would write the same subjects under different file names.
 
 | | [`kickoff`](https://github.com/romain-nicod/kickoff) | Vibecoding Fasttracker |
 |---|---|---|
-| Pour qui | quelqu'un qui sait déjà mener un projet | quelqu'un qui débute complètement |
-| Ce qu'il installe | la méthode dans un dépôt : DoR/DoD, spec → issues, jalons, board | la passation vers une IA tierce, et la montée en compétence de l'humain |
-| Ce qu'il suppose acquis | terminal, Git, GitHub | rien |
+| Who it is for | someone who already knows how to run a project | someone starting from nothing |
+| What it installs | the method, in a repository: DoR and DoD, spec to issues, milestones, board | the handover to a third-party AI, and the human's climb up the learning curve |
+| What it assumes | terminal, Git, GitHub | nothing |
 
-Le Fasttracker **renvoie** à `kickoff` pour toute la méthode de projet. Il ne réécrit pas sa
-Definition of Done et ne redéfinit pas ses jalons. Une règle de méthode qui change, change là-bas.
+The Fasttracker **points at** `kickoff` for the project method as a whole. It does not rewrite its
+Definition of Done and does not redefine its milestones. A method rule that changes, changes there.
+
+## A note on language
+
+The deliverable templates in `templates/` are written in French, because they are read by the
+recipient rather than by a developer, and the first cases were French-speaking. The method around
+them is here in English. Translating a template is a matter of translating one file: the skill fills
+in whatever it is given.
 
 ## Licence
 
-Tous droits réservés — Romain Nicod / AI-GMENTED.
+[CC BY 4.0](LICENSE). Reuse it, adapt it, sell what you build with it. Keep
+the credit visible, as [`NOTICE`](NOTICE) explains.

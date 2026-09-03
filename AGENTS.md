@@ -1,56 +1,60 @@
 # AGENTS.md — vibecoding-fasttracker
 
-> 🔴 **La mémoire de ce dépôt vit dans le vault**, pas ici :
-> `~/Documents/Claude/ObsiClaud/dev/vibecoding-fasttracker/`
-> Ce fichier ne porte que les règles de travail sur ce dépôt.
+> 🔴 **The long memory of this repository lives outside it.** Decisions and their reasons, traps
+> already paid for, state of play: they belong in a notes folder that survives the code. This file
+> carries only the rules for working on this repository.
 
-> ⚙️ Règles de travail communes : `~/Documents/Claude/CLAUDE.md`.
+## What this repository is
 
-## Ce qu'est ce dépôt
+A template for **taking a complete beginner to autonomy in vibe coding**. It produces a handover
+pack: what to give the recipient's AI so that it takes over the steering of a project, and what to
+give the recipient so that they can install all of it without understanding the technical side.
 
-Un gabarit pour **amener un débutant complet à l'autonomie en vibe coding**. Il produit un paquet de
-passation : ce qu'il faut donner à l'IA du destinataire pour qu'elle prenne le relais du pilotage
-d'un projet, et ce qu'il faut donner au destinataire pour qu'il installe tout ça sans rien
-comprendre à la technique.
+First real case: handing a management application over to its director (`examples/`).
 
-Premier cas réel : la passation d'une application de gestion à son dirigeant (`examples/`).
+## The two ends of the chain, never to be confused
 
-## Les deux bouts de la chaîne, à ne jamais confondre
-
-| | Qui | Outil |
+| | Who | Tool |
 |---|---|---|
-| **Celui qui prépare** la passation | l'accompagnant | la skill Claude de ce dépôt |
-| **Celui qui reçoit** la passation | le débutant | son IA à lui — ChatGPT, Claude, autre |
+| **Who prepares** the handover | the coach | the Claude skill in this repository |
+| **Who receives** the handover | the beginner | their own AI: ChatGPT, Claude, anything else |
 
-La skill de ce dépôt est une **skill Claude**. Ce qu'elle produit peut viser n'importe quelle IA.
-Une confusion entre les deux produit une skill qui parle au mauvais interlocuteur.
+The skill in this repository is a **Claude skill**. What it produces can target any AI. Confusing
+the two produces a skill that addresses the wrong person.
 
-## 🔴 Les règles absolues
+## 🔴 The absolute rules
 
-1. **La skill ne contient aucun texte de méthode.** Elle dit quel document remplir et ce qui le rend
-   bon — jamais ce que le document dit. `templates/` est l'unique source du figé. C'est la même
-   règle anti-divergence que dans `kickoff`, et pour la même raison : deux textes de méthode
-   divergent toujours.
-2. **Ce dépôt ne réécrit pas la méthode de `kickoff`.** DoR/DoD, spec → issues, jalons, board : ça
-   vit dans `romain-nicod/kickoff`, on y renvoie. Une règle de méthode qui change, change là-bas.
-3. **Aucun nom propre de client dans `templates/` ni dans `skill/`.** Un gabarit qui porte le métier
-   d'un client n'est plus un gabarit. Les cas réels vivent dans `examples/`, et seulement en
-   pointeur — jamais en copie.
-4. **Le destinataire n'ouvre jamais un terminal.** Tout ce que les gabarits lui demandent se fait
-   dans une interface web ou une application, avec la page, le bouton, et ce qu'il doit voir à la
-   fin. Une commande shell dans un livrable destinataire est un bug.
-5. **Un seul lot ouvert à la fois** est la règle que le dispositif protège. Tout gabarit qui laisse
-   ouvrir deux chantiers en parallèle est à corriger.
+1. **The skill contains no method text.** It says which document to fill in and what makes it good,
+   never what the document says. `templates/` is the single source of everything fixed. It is the
+   same anti-divergence rule as in `kickoff`, for the same reason: two method texts always drift
+   apart.
+2. **This repository does not rewrite `kickoff`'s method.** Definition of Ready and Done, spec to
+   issues, milestones, board: that lives in `romain-nicod/kickoff`, and this one points at it. A
+   method rule that changes, changes there.
+3. **No client name in `templates/` or in `skill/`.** A template carrying one client's business is
+   no longer a template. Real cases live in `examples/`, as pointers only, never as copies.
+4. **The recipient never opens a terminal.** Everything the templates ask of them happens in a web
+   interface or an application, with the page, the button, and what they should see at the end. A
+   shell command in a recipient-facing deliverable is a bug.
+5. **One batch open at a time** is the rule this whole approach protects. Any template that allows
+   two work streams to open in parallel needs fixing.
 
 ## Structure
 
-| Dossier | Contenu |
+| Directory | Contents |
 |---|---|
-| `templates/` | les gabarits de livrables, avec leurs placeholders. La source du figé. |
-| `skill/vibecoding-fasttracker/` | la skill Claude : le jugement, jamais le texte figé. Installée par copie dans `~/.claude/skills/` — **on l'édite ici, jamais là-bas**. |
-| `examples/` | les cas réels, en pointeur vers leur dépôt. Jamais de copie. |
+| `templates/` | The deliverable templates, with their placeholders. The source of everything fixed |
+| `skill/vibecoding-fasttracker/` | The Claude skill: the judgement, never the fixed text. Installed by copying into `~/.claude/skills/`. **Edit it here, never there** |
+| `examples/` | Real cases, as pointers to their own repository. Never a copy |
 
-## Langue
+## Language
 
-Français pour tout : documentation, gabarits, commits. Les identifiants de fichiers et de dossiers
-restent en `kebab-case` ASCII.
+**English for everything that describes the method**: this file, the README, the skill, commit
+messages.
+
+**The deliverable templates in `templates/` are in French**, and that is deliberate. They are read
+by the recipient rather than by a developer, and the first cases were French-speaking. A template is
+one file: translating it is a translation job, not a restructuring one. If you add a language, add
+it beside the existing file rather than replacing it.
+
+File and directory names stay in ASCII `kebab-case`.

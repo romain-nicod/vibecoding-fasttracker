@@ -1,6 +1,5 @@
-Lis [`AGENTS.md`](AGENTS.md) à la racine de ce dépôt avant toute action — il porte le chemin de la
-mémoire de ce projet dans le vault, ce qu'est ce dépôt, et les cinq règles absolues qui le
-gouvernent.
+Read [`AGENTS.md`](AGENTS.md) at the root of this repository before doing anything. It carries what
+this repository is, where its long memory lives, and the five absolute rules that govern it.
 
-Ce fichier n'existe que parce que Claude Code cherche `CLAUDE.md` en priorité ; le contenu réel vit
-dans `AGENTS.md` pour rester lu par les autres agents.
+This file exists only because Claude Code looks for `CLAUDE.md` first. The real content lives in
+`AGENTS.md`, so that other agents read it too.
