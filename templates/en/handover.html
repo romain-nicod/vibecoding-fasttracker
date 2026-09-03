@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PROJECT}} — the handover</title>
+<!--
+  TEMPLATE — Presentation page (deliverable 6).
+  Becomes `handover.html` in {{PACK_DIR}}.
+
+  Constraints not to break:
+  - standalone page: a double-click is enough, NO external request (no font, no image, no script);
+  - printable, and readable offline;
+  - no terminal command anywhere: the reader never opens one.
+-->
+<style>
+  :root {
+    --bg: #fbf9f5;
+    --surface: #ffffff;
+    --surface-2: #f4f0e8;
+    --ink: #221d17;
+    --ink-2: #5c5449;
+    --ink-3: #8b8175;
+    --line: #e2dccf;
+    --accent: #b5651d;
+    --accent-soft: #f6e9dc;
+    --ok: #2f6f4f;
+    --ok-soft: #e4f0e9;
+    --warn: #9a6b00;
+    --warn-soft: #fbf0d8;
+    --radius: 10px;
+    --maxw: 62rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16130f;
+      --surface: #1f1b16;
+      --surface-2: #272119;
+      --ink: #f0eae0;
+      --ink-2: #bdb3a4;
+      --ink-3: #8b8175;
+      --line: #3a3229;
+      --accent: #e0913f;
+      --accent-soft: #35271a;
+      --ok: #7fc4a0;
+      --ok-soft: #1e2e26;
+      --warn: #e0b055;
+      --warn-soft: #322715;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16130f;
+    --surface: #1f1b16;
+    --surface-2: #272119;
+    --ink: #f0eae0;
+    --ink-2: #bdb3a4;
+    --ink-3: #8b8175;
+    --line: #3a3229;
+    --accent: #e0913f;
+    --accent-soft: #35271a;
+    --ok: #7fc4a0;
+    --ok-soft: #1e2e26;
+    --warn: #e0b055;
+    --warn-soft: #322715;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 0 1.25rem 5rem;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; }
+  /* Un mot insécable très long — placeholder non remplacé, URL, nom de produit —
+     déborderait la page sur mobile. On l'autorise à se couper. */
+  h1, h2, h3, p, li, td, th, .gate { overflow-wrap: break-word; }
+
+  header.hero {
+    padding: 3.5rem 0 2.25rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2.5rem;
+  }
+  .eyebrow {
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .75rem;
+  }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); line-height: 1.15; margin: 0 0 1rem; letter-spacing: -.02em; }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 46rem; margin: 0; }
+
+  h2 {
+    font-size: 1.45rem; margin: 3.25rem 0 .35rem; letter-spacing: -.01em;
+    padding-top: 1.75rem; border-top: 1px solid var(--line);
+  }
+  h2:first-of-type { border-top: 0; padding-top: 0; }
+  .sub { color: var(--ink-3); margin: 0 0 1.5rem; font-size: .95rem; }
+  h3 { font-size: 1.05rem; margin: 2rem 0 .5rem; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); }
+
+  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.15rem 1.25rem;
+  }
+  .card h3 { margin-top: 0; }
+  .card p:last-child { margin-bottom: 0; }
+  .card .who { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin: 0 0 .5rem; }
+
+  .callout {
+    background: var(--accent-soft); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius); padding: 1.1rem 1.25rem; margin: 1.5rem 0;
+  }
+  .callout.warn { background: var(--warn-soft); border-left-color: var(--warn); }
+  .callout.ok { background: var(--ok-soft); border-left-color: var(--ok); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { color: var(--ink); }
+
+  .tablewrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--line); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; font-size: .94rem; min-width: 34rem; }
+  th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { background: var(--surface-2); font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 1.5rem 0 0; }
+  ol.steps > li {
+    counter-increment: s; position: relative;
+    padding: 0 0 1.5rem 3.25rem; margin: 0;
+    border-left: 2px solid var(--line); margin-left: 1.05rem;
+  }
+  ol.steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: -1.05rem; top: -.15rem;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--line);
+    color: var(--ink-2); font-weight: 700; font-size: .9rem;
+    display: grid; place-items: center;
+  }
+  ol.steps > li.done::before { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  ol.steps > li.now::before { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  ol.steps h3 { margin: 0 0 .3rem; }
+  ol.steps p { margin: 0 0 .4rem; color: var(--ink-2); }
+  .gate {
+    display: inline-block; font-size: .84rem; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: .3rem .6rem;
+  }
+  .gate b { color: var(--ink); font-weight: 600; }
+
+  ul.plain { padding-left: 1.2rem; margin: 0 0 1rem; }
+  ul.plain li { margin-bottom: .4rem; }
+
+  code {
+    background: var(--surface-2); border: 1px solid var(--line);
+    padding: .1rem .35rem; border-radius: 4px; font-size: .88em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    overflow-wrap: anywhere;
+  }
+
+  /* Encart de gabarit — à supprimer une fois la page remplie. */
+  .template-note {
+    border: 2px dashed var(--accent); border-radius: var(--radius);
+    padding: 1.25rem; margin: 2rem 0 0; background: var(--surface);
+  }
+  .template-note h2 { margin-top: 0; border-top: 0; padding-top: 0; font-size: 1.15rem; }
+
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+    color: var(--ink-3); font-size: .85rem; text-align: center;
+  }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    h2 { break-before: auto; page-break-inside: avoid; }
+    ol.steps > li, .card, .callout { break-inside: avoid; }
+    .template-note { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============================================================================
+     🔴 SECTION TO REMOVE once the template is filled in.
+     ============================================================================ -->
+<section class="template-note">
+  <h2>This template's placeholders</h2>
+  <p class="sub">This section is not part of the deliverable: it gets deleted once the page is filled in.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Placeholder</th><th>What it stands for</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>{{RECIPIENT}}</code></td><td>first name of the person receiving the handover, who will steer</td><td>Camille</td></tr>
+      <tr><td><code>{{COACH}}</code></td><td>first name of the person handing over</td><td>Alex</td></tr>
+      <tr><td><code>{{PROJECT}}</code></td><td>the project's or application's name</td><td>Workshop Invoicing</td></tr>
+      <tr><td><code>{{PROJECT_PURPOSE}}</code></td><td>what the application does, in one line</td><td>issue quotes and invoices, and track stock</td></tr>
+      <tr><td><code>{{ORGANISATION}}</code></td><td>the recipient's company or organisation</td><td>the workshop</td></tr>
+      <tr><td><code>{{NEXT_PROJECTS}}</code></td><td>what comes after this project, if a follow-on is known</td><td>the brochure site, then the client portal</td></tr>
+      <tr><td><code>{{REPO}}</code></td><td>the repository's short path</td><td>my-org/workshop-invoicing</td></tr>
+      <tr><td><code>{{REPO_URL}}</code></td><td>the repository's full URL</td><td>https://github.com/my-org/workshop-invoicing</td></tr>
+      <tr><td><code>{{REPO_HOST}}</code></td><td>where the repository is hosted</td><td>GitHub</td></tr>
+      <tr><td><code>{{METHOD_REPO}}</code></td><td>the method template repository being pointed at</td><td>my-org/kickoff</td></tr>
+      <tr><td><code>{{CODING_AI}}</code></td><td>the tool that writes and runs the code</td><td>Codex</td></tr>
+      <tr><td><code>{{STEERING_AI}}</code></td><td>the form the steering AI takes: configured assistant, project space, prompt</td><td>a configured assistant</td></tr>
+      <tr><td><code>{{COPILOT_NAME}}</code></td><td>the name given to that assistant</td><td>Workshop Copilot</td></tr>
+      <tr><td><code>{{AI_PLAN}}</code></td><td>the paid plan giving access to both AIs</td><td>ChatGPT Pro</td></tr>
+      <tr><td><code>{{STACK}}</code></td><td>the target technical foundation</td><td>Django</td></tr>
+      <tr><td><code>{{CURRENT_STACK}}</code></td><td>the existing technical foundation, which stays as a fallback</td><td>the current live application</td></tr>
+      <tr><td><code>{{HOSTING}}</code></td><td>where the new application will go live</td><td>Fly.io</td></tr>
+      <tr><td><code>{{HOSTING_COST}}</code></td><td>what that hosting costs, or when the amount will be confirmed</td><td>paid — amount confirmed at step 3</td></tr>
+      <tr><td><code>{{DIAGRAM_TOOL}}</code></td><td>the drawing tool for mockups and diagrams</td><td>Excalidraw</td></tr>
+      <tr><td><code>{{PACK_DIR}}</code></td><td>the repository directory holding this pack</td><td>docs/handover/</td></tr>
+      <tr><td><code>{{SPEC_DIR}}</code></td><td>the repository directory where the specification and stories land — <strong>the authoritative one</strong></td><td>docs/specs/</td></tr>
+      <tr><td><code>{{TRACKING_BOARD}}</code></td><td>the tool carrying progress, one card per story</td><td>the repository's Projects board</td></tr>
+      <tr><td><code>{{WIKI}}</code></td><td>where a human goes to read decisions and procedures, outside the code</td><td>the repository wiki</td></tr>
+      <tr><td><code>{{FIRST_NEW_FEATURE}}</code></td><td>the first new thing allowed once the project is finished — named in advance</td><td>automatic data backup</td></tr>
+      <tr><td><code>{{VERSION}}</code></td><td>the document's version</td><td>v01</td></tr>
+      <tr><td><code>{{DATE}}</code></td><td>the date it was last changed</td><td>25/08/2026</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+<!-- ==================== END OF THE SECTION TO REMOVE ==================== -->
+
+<header class="hero">
+  <p class="eyebrow">Handover · {{DATE}}</p>
+  <h1>{{PROJECT}}: you are taking the controls</h1>
+  <p class="lede">
+    {{COACH}} is no longer available day to day on this project. From now on you are the one steering,
+    with two AIs as your technical team and this method as a guardrail. This page tells you where we
+    are going, what you need, and in what order.
+  </p>
+</header>
+
+<h2>What we are after</h2>
+<p class="sub">The goal is not one more application. It is your autonomy.</p>
+
+<div class="cards">
+  <div class="card">
+    <p class="who">Immediate goal</p>
+    <h3>{{PROJECT}}, on {{STACK}}</h3>
+    <p>Enough to {{PROJECT_PURPOSE}}, on a technical base that you and your AIs can sustain over time.
+    Nothing new until it is finished.</p>
+  </div>
+  <div class="card">
+    <p class="who">Underlying goal</p>
+    <h3>That you can do it again</h3>
+    <p>The method you learn here is made to be replayed on {{ORGANISATION}}'s later projects:
+    {{NEXT_PROJECTS}}.</p>
+  </div>
+  <div class="card">
+    <p class="who">What does not change</p>
+    <h3>You decide, you approve</h3>
+    <p>You do not write code and you do not have to learn to. But nothing moves forward until you have
+    understood and accepted what was just produced.</p>
+  </div>
+</div>
+
+<h2>The setup: two AIs, two jobs</h2>
+<p class="sub">This is the key to everything else. Never make one do the other's work.</p>
+
+<div class="cards">
+  <div class="card">
+    <p class="who">The worker</p>
+    <h3>{{CODING_AI}}</h3>
+    <p>Already connected to the <code>{{REPO}}</code> repository. It <strong>writes and runs the
+    code</strong>. It does not decide the method, and it does not decide the scope.</p>
+  </div>
+  <div class="card">
+    <p class="who">The project manager</p>
+    <h3>{{COPILOT_NAME}}</h3>
+    <p>{{STEERING_AI}}, which you are going to set up. It <strong>frames each step, designs, reviews
+    what {{CODING_AI}} produces and holds the method</strong>. It never touches the code.</p>
+  </div>
+</div>
+
+<h3>{{COPILOT_NAME}} wears two hats</h3>
+<p>
+  <strong>Guarantor of the solution</strong> — it is your architect, your quality control and the
+  keeper of the method. It is the one that refuses to move on while a step is unfinished.
+  <strong>Mentor</strong> — it brings you up to speed on what you need to understand to stay in
+  charge. It offers; it never forces a lesson on you that you did not want.
+</p>
+
+<div class="callout">
+  <p><strong>At every step, it will systematically tell you:</strong> where things stand and why ·
+  what will be produced · what it does and what you do · what it needs before starting ·
+  what you will have to approve · the tools used · the step after that.</p>
+  <p>If it skips that introduction, it has lost the thread: ask for it again.</p>
+</div>
+
+<div class="callout warn">
+  <p><strong>{{COPILOT_NAME}} cannot see the repository.</strong> That is deliberate. An AI left
+  believing it has access to the code will invent its contents with great confidence. When it needs a
+  file, it asks you: you copy it across or send it over. You are the bridge.</p>
+</div>
+
+<h2>How a need becomes a feature</h2>
+<p class="sub">
+  It is not your job to write what the application should do. You describe your work;
+  {{COPILOT_NAME}} turns it into an item.
+</p>
+
+<!--
+  THE PATH OF A NEED — four steps, to keep as they are.
+  This is a second `ol.steps` list: its counter restarts at 1, independently of the phasing timeline
+  further down. Do not merge the two lists, they do not tell the same story.
+  Here the <li> describe a back and forth, not project milestones: only the last step carries an exit
+  gate, because that is where the recipient approves.
+-->
+<ol class="steps">
+  <li>
+    <h3>You describe</h3>
+    <p>How things go today: who does what, when, with what, and what actually gets stuck.
+    <strong>Your work, not the screen you imagine.</strong> {{COPILOT_NAME}} asks you simple questions,
+    <strong>one at a time</strong>, in plain language. If it sends you ten at once, tell it so: it is
+    the one going about it wrongly.</p>
+  </li>
+  <li>
+    <h3>It plays it back, you confirm</h3>
+    <p>It tells you what it understood, in its own words, and waits for your agreement
+    <strong>before</strong> writing anything. This is the cheapest moment to correct things: a
+    misunderstood need costs ten times more once it is in code.</p>
+  </li>
+  <li>
+    <h3>It writes the item</h3>
+    <p>One item per need: who uses it, what they do, what it gives them, and the list of what must be
+    <strong>visible on screen</strong> to call it done. With a number and a priority. Anything that
+    cannot be shown is not an item.</p>
+  </li>
+  <li>
+    <h3>You approve, and it gets filed</h3>
+    <p>The approved item joins the repository, and only then. Nothing gets built before that.</p>
+    <p class="gate"><b>You approve when:</b> you can say the item back <b>in your own words</b>. If you
+    cannot, it is not right: we go over it again.</p>
+  </li>
+</ol>
+
+<div class="callout">
+  <p><strong>You write none of it yourself.</strong> You are the expert in your own work; turning that
+  work into items is {{COPILOT_NAME}}'s job. If it asks you to write your requirements for it, it has
+  lost the thread: send it back to this page.</p>
+</div>
+
+<h2>Where things land, and which one is right</h2>
+<p class="sub">Three places, three uses. Only one is authoritative: if two disagree, you know which to believe.</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Place</th><th>What goes in it</th><th>Authoritative?</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>The repository — <code>{{SPEC_DIR}}</code></td>
+      <td>The need items and the specification, as files.</td>
+      <td><strong>Yes — that is the reference</strong></td>
+    </tr>
+    <tr>
+      <td>{{TRACKING_BOARD}}</td>
+      <td>Progress: one card per item, <strong>drawn</strong> from the files.</td>
+      <td>No — it gets rebuilt</td>
+    </tr>
+    <tr>
+      <td>{{WIKI}}</td>
+      <td>What a human reads outside the code: decisions and their reasons, procedures, how-tos.</td>
+      <td>For its own subject only</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+  <strong>A card is never filled in before the file.</strong> If a {{TRACKING_BOARD}} card says
+  something different from the repository file, the file is right: the card gets rebuilt. And a
+  specification never gets copied into {{WIKI}} — two versions of the same text always end up
+  contradicting each other, and nobody knows which to read any more.
+</p>
+
+<div class="callout warn">
+  <p><strong>The repository is private, and it must stay that way.</strong> Making it public is
+  {{COACH}}'s decision, never a setting ticked in passing: it holds {{ORGANISATION}}'s workings and
+  data. If you come across that button in the settings, leave it alone.</p>
+</div>
+
+<div class="callout warn">
+  <p><strong>⚠️ TO BE DECIDED: who actually creates the cards and the pages?</strong>
+  {{COPILOT_NAME}} cannot see the repository, {{CODING_AI}} cannot always create a card, and you may
+  not have the rights to do it yourself. To be settled with {{COACH}} before starting, and written
+  here in black and white, otherwise everyone will assume the other one is handling it.</p>
+</div>
+
+<h2>Before starting: what we need</h2>
+<p class="sub">Until these are cleared, nothing can begin.</p>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr><th>What is needed</th><th>Who handles it</th><th>Why it blocks</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Your access to the <a href="{{REPO_URL}}"><code>{{REPO}}</code></a> repository</td>
+      <td>{{COACH}} invites you</td>
+      <td>That is where the code and all this documentation live.</td>
+    </tr>
+    <tr>
+      <td>Your access to the <code>{{METHOD_REPO}}</code> repository</td>
+      <td>{{COACH}} invites you</td>
+      <td>It is the method template {{COPILOT_NAME}} uses as its reference.</td>
+    </tr>
+    <tr>
+      <td>{{COPILOT_NAME}} set up</td>
+      <td>You — the text is provided, to copy and paste</td>
+      <td>Without it, nobody holds the method in {{COACH}}'s place.</td>
+    </tr>
+    <tr>
+      <td>A {{DIAGRAM_TOOL}} account <em>(free)</em></td>
+      <td>You</td>
+      <td>To draw and approve the screens before they are coded.</td>
+    </tr>
+    <tr>
+      <td>Your access to {{HOSTING}}</td>
+      <td>{{COACH}} adds you as a collaborator</td>
+      <td>That is where the new application will go live. The account is theirs: you are invited onto
+      it, you do not open one.</td>
+    </tr>
+    <tr>
+      <td>Whatever you already have written down about your work <em>(spreadsheets, document templates, procedures)</em></td>
+      <td>You — nothing to write, just to gather</td>
+      <td>Anything {{COPILOT_NAME}} does not know, it will either ask for again or invent.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>The accounts are not yours, and that is deliberate</h2>
+<p class="sub">
+  You open no paid account and you hand over no card. {{COACH}} invites you onto theirs, once, and
+  from then on you work on it alone.
+</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>What you do alone, without asking</th><th>What stays with {{COACH}}</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Putting the new version live</td>
+      <td>Inviting you the first time — onto {{HOSTING}} and onto <code>{{REPO}}</code></td>
+    </tr>
+    <tr>
+      <td>Reading the logs when something is not working</td>
+      <td>Anything touching a payment or a move to a paid plan</td>
+    </tr>
+    <tr>
+      <td>Keeping {{TRACKING_BOARD}} and {{WIKI}} up to date</td>
+      <td>Making a repository public</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <p><strong>The trap: getting into the habit of asking them every time.</strong>
+  {{COACH}} is no longer available day to day, which is the whole point of this handover. If every
+  deployment waits for their reply, the project stops on the first day they do not answer. Access is
+  granted <strong>once</strong>; after that, you move.</p>
+</div>
+
+<div class="callout">
+  <p><strong>When a request genuinely does go to them</strong>, {{COPILOT_NAME}} is the one that writes
+  the message for you, ready to send: what you are asking, in one sentence · why now · what is blocked
+  meanwhile · what you should receive back to know it is done. And it always follows with
+  <strong>what you can get on with while waiting</strong> — you are never left standing around.</p>
+</div>
+
+<h2>The tools, and what they cost</h2>
+<p class="sub">No spending starts without you having seen it coming, even when you are not the one paying.</p>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr><th>Tool</th><th>What it is for</th><th>Who uses it</th><th class="num">Cost</th><th>On whose account</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>{{AI_PLAN}}</td><td>{{CODING_AI}} + {{COPILOT_NAME}}</td><td>You</td><td class="num">Already paid</td><td>You</td></tr>
+    <tr><td>{{REPO_HOST}}</td><td>Keeps the code and this documentation</td><td>You + {{CODING_AI}}</td><td class="num">Free</td><td>{{COACH}}</td></tr>
+    <tr><td>{{DIAGRAM_TOOL}}</td><td>Drawing the screens before coding them</td><td>You + {{COPILOT_NAME}}</td><td class="num">Free</td><td>You</td></tr>
+    <tr><td>{{HOSTING}}</td><td>Hosting the new application online</td><td>{{CODING_AI}} sets it up</td><td class="num">{{HOSTING_COST}}</td><td>{{COACH}}</td></tr>
+    <tr><td>{{CURRENT_STACK}}</td><td>Stays in service as a fallback for the whole project</td><td>Your teams</td><td class="num">Unchanged</td><td>{{ORGANISATION}}</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <p><strong>{{COPILOT_NAME}} has to tell you the cost of any paid tool before you commit — even when
+  the invoice goes to {{COACH}}.</strong> It is not your wallet at stake, it is your decision. If it
+  does not, ask: it is in its instructions.</p>
+</div>
+
+<h2>The path, step by step</h2>
+<p class="sub">
+  One step open at a time. Each ends with an <strong>exit gate</strong>: something you see for
+  yourself and approve. Until you have crossed it, we do not move to the next one. That is the rule
+  that stops the project sprawling in every direction.
+</p>
+
+<!--
+  THE STEP TIMELINE — three examples below, to adapt and complete.
+
+  To add a step: duplicate a whole <li> block and place it in order. The numbering is automatic (a
+  CSS counter), so there is never a number to type by hand.
+
+  Each <li> carries three things, and never fewer:
+    <h3>             the step's name, in the recipient's language, with no technical jargon;
+    <p>              what happens during the step, in one sentence;
+    <p class="gate"> the EXIT GATE: what the recipient SEES for themselves. Phrased as a verifiable
+                     fact ("you open an address and you see a page"), never as an intention ("the
+                     deployment is ready"). A step with no exit gate is not a step.
+
+  Optional classes on the <li>: `now` (current step, accented dot), `done` (crossed, green dot).
+  No class means a step still to come.
+
+  The steps have to run through to the real switchover and name, last, {{FIRST_NEW_FEATURE}}, the
+  first new thing allowed. Naming it in advance heads off "could we just add this?" mid-project.
+-->
+<ol class="steps">
+  <li class="now">
+    <h3>Getting started</h3>
+    <p>Your access, {{CODING_AI}} up to date, {{COPILOT_NAME}} in place, {{DIAGRAM_TOOL}} open.</p>
+    <p class="gate"><b>You approve when:</b> {{COPILOT_NAME}} answers you by framing the first step.</p>
+  </li>
+  <li>
+    <h3>Framing the project</h3>
+    <p>We confirm together what is being done, what is not, and the budget.</p>
+    <p class="gate"><b>You approve when:</b> you can say in one sentence what the project will and will not do.</p>
+  </li>
+  <li>
+    <h3>{{FIRST_NEW_FEATURE}}</h3>
+    <p>The first new thing, and only once everything else is finished.</p>
+    <p class="gate"><b>You approve when:</b> you see for yourself that it works, on your real data.</p>
+  </li>
+</ol>
+
+<div class="callout ok">
+  <p><strong>The rule that protects everything else: we touch nothing new while the current work is
+  unfinished.</strong> It is frustrating, and that is exactly why it is written here, in advance. The
+  first new thing is already chosen: {{FIRST_NEW_FEATURE}}. Everything else waits its turn.</p>
+</div>
+
+<h2>Where to find what</h2>
+<p class="sub">Everything is in the repository, in the <code>{{PACK_DIR}}</code> folder. One sync in {{CODING_AI}} and you have the latest version.</p>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>File</th><th>Who for</th><th>What it holds</th></tr></thead>
+  <tbody>
+    <tr><td><code>README.md</code></td><td><strong>You, first</strong></td><td>The step-by-step getting started. Begin there.</td></tr>
+    <tr><td><code>00-method-and-roles.md</code></td><td>{{COPILOT_NAME}}</td><td>The method, the roles, and the exact text to paste to set it up.</td></tr>
+    <tr><td><code>01-phasing-and-checklist.md</code></td><td>{{COPILOT_NAME}} and you</td><td>The detail of each step and its exit gate.</td></tr>
+    <tr><td><code>02-context.md</code></td><td>{{COPILOT_NAME}}</td><td>Everything already decided about your work: not to be asked again.</td></tr>
+    <tr><td><code>03-stack-and-technical-decisions.md</code></td><td>{{CODING_AI}}</td><td>The technical instructions, before a single line is written.</td></tr>
+    <tr><td>this page</td><td>You</td><td>The whole picture, to reread when you lose the thread.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>And if it gets stuck</h2>
+<ul class="plain">
+  <li><strong>{{COPILOT_NAME}} charges ahead without explaining?</strong> Tell it: "remind me of the
+  frame of the step before moving on". It is in its instructions, it has to.</li>
+  <li><strong>It talks about a file it does not have?</strong> It cannot see the repository. Copy the
+  file across — and be wary if it describes the contents of something you never gave it.</li>
+  <li><strong>You do not understand a word?</strong> Ask. It wears a mentor's hat, that is exactly its
+  role — and a word not understood today is a decision imposed on you tomorrow.</li>
+  <li><strong>Someone suggests adding "just one small thing"?</strong> Note it down and refuse it for
+  now. One project at a time.</li>
+  <li><strong>{{COPILOT_NAME}} asks you to write your requirements yourself?</strong> That is the
+  opposite of its role. Tell it again to ask you simple questions, one at a time, about your work, and
+  to write the items itself afterwards.</li>
+  <li><strong>An access is blocking you?</strong> Repository or hosting, that is for {{COACH}}: they
+  alone can invite, and they do it once. Ask {{COPILOT_NAME}} to write the message for you: finding
+  the right words is not your job.</li>
+  <li><strong>Waiting on a reply from {{COACH}}?</strong> Ask {{COPILOT_NAME}} what you can get on with
+  meanwhile. There is nearly always something — and if it leaves you at a standstill with nothing to
+  offer, insist.</li>
+  <li><strong>A {{TRACKING_BOARD}} card says something different from the repository file?</strong>
+  The file is right. Have the card rebuilt, never the other way round.</li>
+</ul>
+
+<footer>
+  {{PROJECT}} — handover document to {{RECIPIENT}} · {{VERSION}} — {{DATE}}
+</footer>
+
+</div>
+</body>
+</html>
