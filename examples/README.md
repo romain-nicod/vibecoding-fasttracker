@@ -6,14 +6,16 @@ appris au gabarit.
 
 ---
 
-## AGROMALIBIO — le cas fondateur (25/08/2026)
+## Le cas fondateur — un dirigeant non technique reprend une refonte (25/08/2026)
 
-**Où lire** : dépôt `ai-gmented-pm/agromalibio`, dossier `docs/refonte/`.
+**Où lire** : le paquet de passation vit dans le dépôt du projet, sous `docs/refonte/`.
+*(Dépôt privé. Ce cas figure ici pour sa méthode, pas pour son code — et le destinataire
+n'est pas nommé : ce gabarit décrit des situations, pas des personnes.)*
 
 **La situation** : une application de facturation et de stock, en production, construite par
-l'accompagnant. L'accompagnant n'est plus disponible. Le patron de l'entreprise — débutant total sur
-ChatGPT et sur Mac, ne code pas et ne le souhaite pas — reprend le pilotage d'une refonte complète
-vers une autre stack, avec ses propres outils ChatGPT.
+l'accompagnant. L'accompagnant n'est plus disponible. Le dirigeant de l'entreprise reprend le
+pilotage d'une refonte complète vers une autre stack, avec ses propres outils. Il ne code pas et
+ne le souhaite pas — c'est précisément la situation que ce gabarit adresse, pas une lacune.
 
 **Le dispositif retenu** : un projet Codex déjà connecté au dépôt écrit le code ; un Custom GPT créé
 pour l'occasion tient la méthode et les portes de sortie. Le Custom GPT n'a **pas** d'accès Git — le
@@ -39,5 +41,6 @@ accès au dépôt produit des réponses inventées sur son état.
   un rituel de demande permanent. C'était une erreur : elle remet l'accompagnant sur le chemin
   critique alors qu'il n'est justement plus disponible. La correction — **donner les accès une fois,
   et ne garder que la facturation et le passage en public** — est devenue une règle du gabarit.
-- Le recueil des besoins n'avait pas été attribué. Sans attribution explicite, il retombe sur le
-  destinataire, qui ne sait pas le faire — et l'accompagnement devient une prise de commande.
+- Le recueil des besoins n'avait pas été attribué. Sans attribution explicite, il retombe par
+  défaut sur le destinataire — ce n'est pas son métier, et l'accompagnement se dégrade alors en
+  prise de commande.

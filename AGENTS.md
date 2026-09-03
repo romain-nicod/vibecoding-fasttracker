@@ -13,7 +13,7 @@ passation : ce qu'il faut donner à l'IA du destinataire pour qu'elle prenne le 
 d'un projet, et ce qu'il faut donner au destinataire pour qu'il installe tout ça sans rien
 comprendre à la technique.
 
-Premier cas réel : la passation d'AGROMALIBIO à son patron (`examples/`).
+Premier cas réel : la passation d'une application de gestion à son dirigeant (`examples/`).
 
 ## Les deux bouts de la chaîne, à ne jamais confondre
 
