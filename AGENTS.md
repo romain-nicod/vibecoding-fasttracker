@@ -32,7 +32,7 @@ Une confusion entre les deux produit une skill qui parle au mauvais interlocuteu
    règle anti-divergence que dans `kickoff`, et pour la même raison : deux textes de méthode
    divergent toujours.
 2. **Ce dépôt ne réécrit pas la méthode de `kickoff`.** DoR/DoD, spec → issues, jalons, board : ça
-   vit dans `ai-gmented-pm/kickoff`, on y renvoie. Une règle de méthode qui change, change là-bas.
+   vit dans `romain-nicod/kickoff`, on y renvoie. Une règle de méthode qui change, change là-bas.
 3. **Aucun nom propre de client dans `templates/` ni dans `skill/`.** Un gabarit qui porte le métier
    d'un client n'est plus un gabarit. Les cas réels vivent dans `examples/`, et seulement en
    pointeur — jamais en copie.

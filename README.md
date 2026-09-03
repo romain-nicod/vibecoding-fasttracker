@@ -100,7 +100,7 @@ réussi. Il commence par le `README.md` du paquet et ne lit rien d'autre tant qu
 🔴 **Les deux ne se recouvrent pas.** Ne jamais appliquer les deux au même dépôt sans arbitrage
 explicite : ils écriraient les mêmes sujets sous des noms de fichiers différents.
 
-| | [`kickoff`](https://github.com/ai-gmented-pm/kickoff) | Vibecoding Fasttracker |
+| | [`kickoff`](https://github.com/romain-nicod/kickoff) | Vibecoding Fasttracker |
 |---|---|---|
 | Pour qui | quelqu'un qui sait déjà mener un projet | quelqu'un qui débute complètement |
 | Ce qu'il installe | la méthode dans un dépôt : DoR/DoD, spec → issues, jalons, board | la passation vers une IA tierce, et la montée en compétence de l'humain |
